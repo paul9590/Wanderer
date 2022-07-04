@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "907757469993",
+    "project_id": "wanderer-51036",
+    "storage_bucket": "wanderer-51036.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:907757469993:android:5ab7d0c840dbd3cf0a7738",
+        "android_client_info": {
+          "package_name": "com.pingmo.wanderer"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "907757469993-2n5t5d3njafvu693nnf9l613go2b8qcr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.pingmo.wanderer",
+            "certificate_hash": "4d4db9f62d77911992ae56ac464eb523fe8df677"
+          }
+        },
+        {
+          "client_id": "907757469993-hclq9rio55e42sa8t7o78u6sbie393b5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD9bDJxYS1zlfs5K1gl3ngnxEt2qhanlnU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "907757469993-hclq9rio55e42sa8t7o78u6sbie393b5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
