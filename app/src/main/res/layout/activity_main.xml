@@ -1,10 +1,209 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".MainActivity">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <data>
+        <variable name="view" type="com.pingmo.wanderer.MyViewModel"/>
+    </data>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/mainbg">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintHeight_percent="0.95"
+            app:layout_constraintWidth_percent="0.95">
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideMainCenter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.5"/>
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideMain1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.2"/>
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideMain2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.4"/>
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideMain3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.6"/>
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideMain4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.8"/>
+
+            <ImageView
+                android:id="@+id/bgProfile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:src="@drawable/profilebg"/>
+
+            <ImageView
+                android:id="@+id/imgProfile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="@id/bgProfile"
+                app:layout_constraintBottom_toBottomOf="@id/bgProfile"
+                app:layout_constraintLeft_toLeftOf="@id/bgProfile"
+                android:src="@drawable/profileimg"/>
+
+            <TextView
+                android:id="@+id/txtName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="@id/bgProfile"
+                app:layout_constraintBottom_toBottomOf="@id/bgProfile"
+                app:layout_constraintLeft_toRightOf="@id/imgProfile"
+                android:text="@{view.name}"/>
+
+            <TextView
+                android:id="@+id/txtMoney"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/txtName"
+                app:layout_constraintLeft_toRightOf="@id/imgProfile"
+                android:text="@{Integer.toString(view.money)}"/>
+
+            <ImageButton
+                android:id="@+id/imbMenu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintRight_toLeftOf="@id/imbSetting"
+                android:src="@drawable/menuimb"
+                android:background="#00000000"
+                android:onClick="@{() -> view.click()}"/>
+
+            <ImageButton
+                android:id="@+id/imbSetting"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                android:src="@drawable/settingimb"
+                android:background="#00000000"/>
+
+            <ImageButton
+                android:id="@+id/imbFriendlyGame"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@id/guideMainCenter"
+                app:layout_constraintHorizontal_bias="0.9"
+                android:src="@drawable/friendlygameimb"
+                android:background="#00000000"/>
+
+            <ImageButton
+                android:id="@+id/imbRankGame"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toRightOf="@id/guideMainCenter"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintHorizontal_bias="0.1"
+                android:src="@drawable/rankgameimb"
+                android:background="#00000000"/>
+
+            <ImageButton
+                android:id="@+id/imbNotice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="@id/imbRankGame"
+                app:layout_constraintBottom_toBottomOf="@id/imbRankGame"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintVertical_bias="0.9"
+                android:src="@drawable/noticeimb"
+                android:background="#00000000"/>
+
+            <ImageView
+                android:id="@+id/imgBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                android:src="@drawable/barimg"/>
+
+            <ImageButton
+                android:id="@+id/imbInfo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@id/guideMain1"
+                android:src="@drawable/infoimb"
+                android:background="#00000000"/>
+
+            <ImageButton
+                android:id="@+id/imbFriend"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toRightOf="@id/guideMain1"
+                app:layout_constraintRight_toLeftOf="@id/guideMain2"
+                android:src="@drawable/friendimb"
+                android:background="#00000000"/>
+
+            <ImageButton
+                android:id="@+id/imbRanking"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toRightOf="@id/guideMain2"
+                app:layout_constraintRight_toLeftOf="@id/guideMain3"
+                android:src="@drawable/rankingimb"
+                android:background="#00000000"/>
+
+            <ImageButton
+                android:id="@+id/imbQuest"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toRightOf="@id/guideMain3"
+                app:layout_constraintRight_toLeftOf="@id/guideMain4"
+                android:src="@drawable/questimb"
+                android:background="#00000000"/>
+
+            <ImageButton
+                android:id="@+id/imbShop"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toRightOf="@id/guideMain4"
+                app:layout_constraintRight_toRightOf="parent"
+                android:src="@drawable/shopimb"
+                android:background="#00000000"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

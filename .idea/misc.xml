@@ -3,8 +3,19 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/paul9/AndroidStudioProjects/Wanderer/app/src/main/res/layout/activity_main.xml" value="0.36277173913043476" />
-        <entry key="..\:/Users/paul9/AndroidStudioProjects/Wanderer/app/src/main/res/layout/activity_title.xml" value="0.53125" />
+        <entry key="..\:/Users/paul9/AndroidStudioProjects/Wanderer/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.5255" />
+        <entry key="..\:/Users/paul9/AndroidStudioProjects/Wanderer/app/src/main/res/drawable/imbfriend.xml" value="0.5255" />
+        <entry key="..\:/Users/paul9/AndroidStudioProjects/Wanderer/app/src/main/res/drawable/imbfriendlygame.xml" value="0.5255" />
+        <entry key="..\:/Users/paul9/AndroidStudioProjects/Wanderer/app/src/main/res/drawable/imbmenu.xml" value="0.5255" />
+        <entry key="..\:/Users/paul9/AndroidStudioProjects/Wanderer/app/src/main/res/drawable/imbnotice.xml" value="0.5255" />
+        <entry key="..\:/Users/paul9/AndroidStudioProjects/Wanderer/app/src/main/res/drawable/imbquest.xml" value="0.5255" />
+        <entry key="..\:/Users/paul9/AndroidStudioProjects/Wanderer/app/src/main/res/drawable/imbrankgame.xml" value="0.5255" />
+        <entry key="..\:/Users/paul9/AndroidStudioProjects/Wanderer/app/src/main/res/drawable/imbrankingbtn.xml" value="0.5255" />
+        <entry key="..\:/Users/paul9/AndroidStudioProjects/Wanderer/app/src/main/res/drawable/imbsettingbtn.xml" value="0.5255" />
+        <entry key="..\:/Users/paul9/AndroidStudioProjects/Wanderer/app/src/main/res/drawable/imbshop.xml" value="0.5255" />
+        <entry key="..\:/Users/paul9/AndroidStudioProjects/Wanderer/app/src/main/res/drawable/infoimb.xml" value="0.5255" />
+        <entry key="..\:/Users/paul9/AndroidStudioProjects/Wanderer/app/src/main/res/layout/activity_main.xml" value="0.5" />
+        <entry key="..\:/Users/paul9/AndroidStudioProjects/Wanderer/app/src/main/res/layout/activity_title.xml" value="0.5" />
       </map>
     </option>
   </component>
