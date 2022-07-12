@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-        <variable name="view" type="com.pingmo.wanderer.MyViewModel"/>
+        <variable name="view" type="com.pingmo.wanderer.viewmodel.MainViewModel"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -97,8 +97,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintRight_toLeftOf="@id/imbSetting"
                 android:src="@drawable/menuimb"
-                android:background="#00000000"
-                android:onClick="@{() -> view.click()}"/>
+                android:background="#00000000"/>
 
             <ImageButton
                 android:id="@+id/imbSetting"

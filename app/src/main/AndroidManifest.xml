@@ -12,7 +12,7 @@
         android:theme="@style/Theme.Wanderer">
 
         <activity
-            android:name=".TitleActivity"
+            android:name=".activitiy.MainActivity"
             android:screenOrientation="landscape"
             android:exported="true">
             <intent-filter>
@@ -21,8 +21,31 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity"
+        <activity android:name=".activitiy.TitleActivity"
             android:screenOrientation="landscape"/>
+        <activity android:name=".activitiy.FriendActivity"
+            android:screenOrientation="landscape"/>
+        <activity android:name=".activitiy.GameActivity"
+            android:screenOrientation="landscape"/>
+        <activity android:name=".activitiy.InfoActivity"
+            android:screenOrientation="landscape"/>
+        <activity android:name=".activitiy.MenuActivity"
+            android:screenOrientation="landscape"/>
+        <activity android:name=".activitiy.NoticeActivity"
+            android:screenOrientation="landscape"/>
+        <activity android:name=".activitiy.QuestActivity"
+            android:screenOrientation="landscape"/>
+        <activity android:name=".activitiy.RankingActivity"
+            android:screenOrientation="landscape"/>
+        <activity android:name=".activitiy.SettingActivitiy"
+            android:screenOrientation="landscape"/>
+        <activity android:name=".activitiy.ShopActivitiy"
+            android:screenOrientation="landscape"/>
+
+        <service android:name=".ClientService"
+            android:enabled="true"
+            android:exported="true">
+        </service>
 
     </application>
 

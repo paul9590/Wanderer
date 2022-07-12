@@ -1,10 +1,12 @@
-package com.pingmo.wanderer
+package com.pingmo.wanderer.viewmodel
 
+import android.content.Intent
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.pingmo.wanderer.activitiy.*
 
-class MyViewModel : ViewModel(){
+class MainViewModel : ViewModel(){
     private val _name = MutableLiveData<String>()
     private val _money = MutableLiveData<Int>()
 
@@ -19,7 +21,4 @@ class MyViewModel : ViewModel(){
     val money : LiveData<Int>
         get() = _money
 
-    fun click() {
-        _money.value = _money.value?.plus(1)
-    }
 }
