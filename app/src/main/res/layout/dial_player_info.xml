@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/shape_rectangle2">
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/btnX"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@drawable/imb_x"
+        />
+
+    <ImageView
+        android:layout_marginLeft="@dimen/margin_Left_10"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="30dp"
+        android:id="@+id/imgPlayer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:src="@drawable/img_profile_c"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <TextView
+        android:id="@+id/txtPlayer1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/imgPlayer"
+        app:layout_constraintBottom_toTopOf="@id/txtPlayer2"
+        app:layout_constraintLeft_toRightOf="@id/imgPlayer"
+        android:layout_marginLeft="@dimen/margin_Left_10"
+        android:text="닉네임 : " />
+
+    <TextView
+        android:id="@+id/txtPlayer2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/txtPlayer1"
+        app:layout_constraintBottom_toBottomOf="@id/imgPlayer"
+        app:layout_constraintLeft_toRightOf="@id/imgPlayer"
+        android:layout_marginLeft="@dimen/margin_Left_10"
+        android:text="랭킹 : "
+       />
+
+    <TextView
+        android:id="@+id/txtPlayerName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        app:layout_constraintTop_toTopOf="@id/txtPlayer1"
+        app:layout_constraintLeft_toRightOf="@id/txtPlayer1"
+        app:layout_constraintBottom_toBottomOf="@id/txtPlayer1"/>
+
+    <TextView
+        android:id="@+id/txtPlayerRate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        app:layout_constraintTop_toTopOf="@id/txtPlayer2"
+        app:layout_constraintLeft_toRightOf="@id/txtPlayer2"
+        app:layout_constraintBottom_toBottomOf="@id/txtPlayer2"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.75"/>
+
+    <ImageButton
+        android:layout_marginRight="@dimen/margin_Left_10"
+        android:id="@+id/btnAddFriend"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_goneMarginRight="@dimen/margin_Left_10"
+        android:background="@drawable/imb_add_friend"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/guideInfo"
+        app:layout_constraintBottom_toTopOf="@id/btnKick"
+        app:layout_constraintRight_toRightOf="parent"
+        />
+
+    <ImageButton
+        android:layout_marginRight="@dimen/margin_Left_10"
+        android:id="@+id/btnKick"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/imb_kick"
+        app:layout_goneMarginRight="@dimen/margin_Left_10"
+
+        app:layout_constraintLeft_toRightOf="@id/guideInfo"
+        app:layout_constraintTop_toBottomOf="@id/btnAddFriend"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        />
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
