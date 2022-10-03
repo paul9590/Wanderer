@@ -2,7 +2,6 @@ package com.wanderer.client.activitiy
 
 import android.app.Dialog
 import android.graphics.Color
-import android.graphics.PorterDuff
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.os.Handler
@@ -19,6 +18,7 @@ import com.wanderer.client.User
 import com.wanderer.client.Wanderer
 import com.wanderer.client.databinding.ActivitiyGameBinding
 import com.wanderer.client.databinding.DialDeckBinding
+import com.wanderer.client.databinding.DialResultBinding
 import org.json.JSONException
 import org.json.JSONObject
 
@@ -39,6 +39,7 @@ class GameActivity : AppCompatActivity(){
 
     private val player = HashMap<String, Int>()
     private val chatFr = ChatFragment()
+    private var cardPicked = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,10 +61,13 @@ class GameActivity : AppCompatActivity(){
         for(i in btns.indices) {
             btns[i].isClickable = false
             btns[i].setOnClickListener {
-                val map = HashMap<String, String>()
-                map["what"] = "704"
-                map["num"] = deck[i].toString()
-                wanderer.send(map)
+                if(!cardPicked) {
+                    val map = HashMap<String, String>()
+                    map["what"] = "704"
+                    map["num"] = deck[i].toString()
+                    wanderer.send(map)
+                    cardPicked = true
+                }
             }
         }
         setPlayer()
@@ -139,15 +143,20 @@ class GameActivity : AppCompatActivity(){
     }
 
     private fun setDeck(order: Int, token: Int) {
+        cardPicked = false
         val imgs = arrayOf(R.drawable.imb_card1, R.drawable.imb_card2, R.drawable.imb_card3, R.drawable.imb_card4, R.drawable.imb_card5,
                         R.drawable.imb_card6, R.drawable.imb_card7,R.drawable.imb_card8, R.drawable.imb_card9, R.drawable.imb_card10,
                         R.drawable.imb_card11, R.drawable.imb_card12, R.drawable.imb_card13, R.drawable.imb_card14, R.drawable.imb_card15)
+
+        val imgsp = arrayOf(R.drawable.img_card1_p, R.drawable.img_card2_p, R.drawable.img_card3_p, R.drawable.img_card4_p, R.drawable.img_card5_p,
+                R.drawable.img_card6_p, R.drawable.img_card7_p,R.drawable.img_card8_p, R.drawable.img_card9_p, R.drawable.img_card10_p,
+                R.drawable.img_card11_p, R.drawable.img_card12_p, R.drawable.img_card13_p, R.drawable.img_card14_p, R.drawable.img_card15_p)
 
         val inCondition = BooleanArray(6)
         when(token) {
             1 -> {
                 for(i in deck.indices) {
-                    if(deck[i] > order) {
+                    if(deck[i] >= order) {
                         inCondition[i] = true
                     }
                 }
@@ -155,7 +164,7 @@ class GameActivity : AppCompatActivity(){
 
             2 -> {
                 for(i in deck.indices) {
-                    if(deck[i] < order) {
+                    if(deck[i] <= order) {
                         inCondition[i] = true
                     }
                 }
@@ -182,11 +191,15 @@ class GameActivity : AppCompatActivity(){
             if(deck[i] != 0 && inCondition[i]) {
                 btns[i].background = ResourcesCompat.getDrawable(resources, imgs[deck[i] - 1], null)
                 btns[i].isClickable = true
+            }else if(deck[i] != 0) {
+                btns[i].background = ResourcesCompat.getDrawable(resources, imgsp[deck[i] - 1], null)
+                btns[i].isClickable = false
             }else {
                 btns[i].background = ResourcesCompat.getDrawable(resources, R.drawable.img_card_back, null)
                 btns[i].isClickable = false
             }
         }
+
         for(i in btns.indices) {
             if(btns[i].isClickable) {
                 return
@@ -208,7 +221,6 @@ class GameActivity : AppCompatActivity(){
             2 -> {
                 mBinding.imgCondition.background = ResourcesCompat.getDrawable(resources, cards[order - 1], null)
                 mBinding.imgCondition2.background = ResourcesCompat.getDrawable(resources, R.drawable.img_down, null)
-
             }
 
             3 -> {
@@ -222,7 +234,6 @@ class GameActivity : AppCompatActivity(){
         setDeck(order, token)
     }
 
-
     override fun onStart() {
         super.onStart()
         wanderer.setHandler(GameHandler())
@@ -231,6 +242,12 @@ class GameActivity : AppCompatActivity(){
     override fun onPause() {
         super.onPause()
         overridePendingTransition(0, 0)
+    }
+
+    override fun onBackPressed() {
+        val map = HashMap<String, String>()
+        map["what"] = "710"
+        wanderer.send(map)
     }
 
     inner class GameHandler: Handler(Looper.getMainLooper()) {
@@ -298,10 +315,50 @@ class GameActivity : AppCompatActivity(){
                             }
                         }
                     }
+
+                    709 -> {
+                        for(i in deck.indices) {
+                            deck[i] = 0
+                        }
+
+                        val arr = receive.getJSONArray("player")
+                        for(i in 0 until arr.length()) {
+                            val data = arr.getJSONObject(i)
+                            if(data.getString("name") == user.name) {
+                                val grade = data.getString("grade").toInt()
+                                val score = data.getString("score")
+                                showResultDial(grade, score)
+                                break
+                            }
+                        }
+                    }
+
+                    710 -> {
+                        finish()
+                    }
                 }
             } catch (e: JSONException) {
                 e.printStackTrace()
             }
         }
+    }
+
+    private fun showResultDial(grade: Int, score: String) {
+        val dial = Dialog(this)
+        dial.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dial.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        val mBinding = DialResultBinding.inflate(this.layoutInflater)
+        dial.setContentView(mBinding.root)
+        dial.show()
+        dial.setCancelable(false)
+
+        val arr = arrayOf(R.drawable.img_result1, R.drawable.img_result2, R.drawable.img_result3, R.drawable.img_result4)
+        mBinding.imgResult.setImageResource(arr[grade - 1])
+        mBinding.btnBack.setOnClickListener {
+            val map = HashMap<String, String>()
+            map["what"] = "710"
+            wanderer.send(map)
+        }
+        mBinding.txtPlayer.text = "${user.name}\n${score}"
     }
 }

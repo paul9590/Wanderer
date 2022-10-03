@@ -44,6 +44,13 @@ class RoomActivity : AppCompatActivity(){
 
         val roomInfo = intent.getSerializableExtra("roomInfo") as RoomInfo
         setRoomInfo(roomInfo)
+
+        if(user.name == mList[0].name) {
+            mBinding.btnStart.visibility = View.VISIBLE
+        }else {
+            mBinding.btnStart.visibility = View.INVISIBLE
+        }
+
         mBinding.btnRoomChat.setOnClickListener {
             // 욕설 필터링 추가 해야 함
             val chat = mBinding.editRoomChat.text.toString()
@@ -105,7 +112,7 @@ class RoomActivity : AppCompatActivity(){
         dial.setContentView(mBinding.root)
         dial.show()
         mBinding.editEnterRoomPw.visibility = View.INVISIBLE
-        mBinding.chkRoomLock.setOnCheckedChangeListener {view, isChecked ->
+        mBinding.chkRoomLock.setOnCheckedChangeListener { _, isChecked ->
             if(isChecked) {
                 mBinding.editEnterRoomPw.visibility = View.VISIBLE
             }else {
@@ -155,6 +162,11 @@ class RoomActivity : AppCompatActivity(){
                             for(i in 0 until arr.length()) {
                                 val data = arr.getJSONObject(i)
                                 mList.add(PlayerInfo(data.getString("name").toString()))
+                            }
+                            if(user.name == mList[0].name) {
+                                mBinding.btnStart.visibility = View.VISIBLE
+                            }else {
+                                mBinding.btnStart.visibility = View.INVISIBLE
                             }
                             mAdapter.notifyDataSetChanged()
                         } else {
