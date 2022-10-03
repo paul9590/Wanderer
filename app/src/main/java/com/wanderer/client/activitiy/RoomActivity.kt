@@ -17,7 +17,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.wanderer.client.*
 import com.wanderer.client.databinding.ActivityRoomBinding
 import com.wanderer.client.databinding.DialAddRoomBinding
-import com.wanderer.client.recycler.RoomChatRecyclerAdapter
+import com.wanderer.client.recycler.ChatRecyclerAdapter
 import com.wanderer.client.recycler.RoomPlayerRecyclerAdapter
 import org.json.JSONException
 import org.json.JSONObject
@@ -28,7 +28,7 @@ class RoomActivity : AppCompatActivity(){
     private val mList = ArrayList<PlayerInfo>()
     private val chatList = ArrayList<String>()
     private val mAdapter = RoomPlayerRecyclerAdapter(mList)
-    private val chatAdapter = RoomChatRecyclerAdapter(chatList)
+    private val chatAdapter = ChatRecyclerAdapter(chatList)
 
     private val wanderer: Wanderer = Wanderer.instance
     private lateinit var user: User
@@ -93,8 +93,8 @@ class RoomActivity : AppCompatActivity(){
         mBinding.viewRoomUser.adapter = mAdapter
         mBinding.viewRoomUser.layoutManager = LinearLayoutManager(applicationContext, RecyclerView.VERTICAL, false)
 
-        mBinding.viewRoomChat.adapter = chatAdapter
-        mBinding.viewRoomChat.layoutManager = LinearLayoutManager(applicationContext, RecyclerView.VERTICAL, false)
+        mBinding.viewChat.adapter = chatAdapter
+        mBinding.viewChat.layoutManager = LinearLayoutManager(applicationContext, RecyclerView.VERTICAL, false)
     }
 
     private fun showAlterRoomDial() {

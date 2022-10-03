@@ -6,8 +6,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.wanderer.client.databinding.ListChatBinding
 
-class RoomChatRecyclerAdapter(data: ArrayList<String>):
-    RecyclerView.Adapter<RoomChatRecyclerAdapter.RoomChatViewHolder>(){
+class ChatRecyclerAdapter(data: ArrayList<String>):
+    RecyclerView.Adapter<ChatRecyclerAdapter.ChatViewHolder>(){
     private val mData: ArrayList<String>
     private lateinit var context: Context
 
@@ -15,15 +15,15 @@ class RoomChatRecyclerAdapter(data: ArrayList<String>):
         mData = data
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RoomChatViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChatViewHolder {
 
         context = parent.context
         // create a new view-
 
-        return RoomChatViewHolder(ListChatBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+        return ChatViewHolder(ListChatBinding.inflate(LayoutInflater.from(parent.context), parent, false))
     }
 
-    override fun onBindViewHolder(holder: RoomChatViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ChatViewHolder, position: Int) {
         val mBinding = holder.mBinding
         bind(mData[position], mBinding)
     }
@@ -34,5 +34,5 @@ class RoomChatRecyclerAdapter(data: ArrayList<String>):
 
     override fun getItemCount(): Int = mData.size
 
-    inner class RoomChatViewHolder(val mBinding: ListChatBinding): RecyclerView.ViewHolder(mBinding.root)
+    inner class ChatViewHolder(val mBinding: ListChatBinding): RecyclerView.ViewHolder(mBinding.root)
 }

@@ -13,6 +13,7 @@ import android.widget.ImageButton
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.res.ResourcesCompat
+import com.wanderer.client.ChatFragment
 import com.wanderer.client.R
 import com.wanderer.client.User
 import com.wanderer.client.Wanderer
@@ -37,6 +38,7 @@ class GameActivity : AppCompatActivity(){
                             R.drawable.img_card11, R.drawable.img_card12, R.drawable.img_card13, R.drawable.img_card14, R.drawable.img_card15)
 
     private val player = HashMap<String, Int>()
+    private val chatFr = ChatFragment()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,6 +68,7 @@ class GameActivity : AppCompatActivity(){
         }
         setPlayer()
         showDeckDial()
+
     }
 
     private fun setPlayer() {
@@ -236,6 +239,12 @@ class GameActivity : AppCompatActivity(){
             try {
                 val receive = JSONObject(msg.obj.toString())
                 when (msg.what) {
+
+                    601 -> {
+                        val chat = receive.getString("name") + " : " +  receive.getString("chat")
+                        chatFr.addList(chat)
+                    }
+
                     702 -> {
                         val isValidate = receive.getString("isValidate") == "1"
                          if(!isValidate) {
@@ -265,7 +274,11 @@ class GameActivity : AppCompatActivity(){
                     705 -> {
                         val winner = receive.getString("winner")
                         val num = receive.getString("num")
-                        Toast.makeText(applicationContext, "${winner}님이 ${num}를 제출해서 이겼습니다.", Toast.LENGTH_SHORT).show()
+                        if(winner == "") {
+                            Toast.makeText(applicationContext, "무승부", Toast.LENGTH_SHORT).show()
+                        }else {
+                            Toast.makeText(applicationContext, "${winner}님이 ${num}를 제출해서 이겼습니다.", Toast.LENGTH_SHORT).show()
+                        }
                     }
 
                     707 -> {

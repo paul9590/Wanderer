@@ -110,7 +110,7 @@
         app:layout_constraintRight_toLeftOf="@id/viewRoomUser" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/viewChat"
+        android:id="@+id/viewRoomChat"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintLeft_toRightOf="@id/guideRoomLeft"
@@ -120,7 +120,7 @@
         android:background="@drawable/shape_rectangle">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/viewRoomChat"
+            android:id="@+id/viewChat"
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:layout_constraintTop_toTopOf="parent"
@@ -136,9 +136,9 @@
             android:layout_height="32dp"
             android:layout_margin="5dp"
             android:paddingStart="5dp"
-            app:layout_constraintLeft_toLeftOf="@id/viewChat"
+            app:layout_constraintLeft_toLeftOf="@id/viewRoomChat"
             app:layout_constraintRight_toLeftOf="@id/btnRoomChat"
-            app:layout_constraintBottom_toBottomOf="@id/viewChat"
+            app:layout_constraintBottom_toBottomOf="@id/viewRoomChat"
             android:background="@drawable/shape_rectangle"/>
 
         <ImageButton
