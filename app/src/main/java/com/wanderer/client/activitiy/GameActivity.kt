@@ -2,6 +2,7 @@ package com.wanderer.client.activitiy
 
 import android.app.Dialog
 import android.graphics.Color
+import android.graphics.PorterDuff
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.os.Handler
@@ -39,7 +40,9 @@ class GameActivity : AppCompatActivity(){
 
     private val player = HashMap<String, Int>()
     private val chatFr = ChatFragment()
+
     private var cardPicked = false
+    private var retired = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -117,7 +120,7 @@ class GameActivity : AppCompatActivity(){
                     pickedCard--
                 }else if(pickedCard < 6) {
                     imgs[i].tag = 1
-                    imgs[i].setColorFilter(R.color.gray2)
+                    imgs[i].setColorFilter(R.color.black, PorterDuff.Mode.MULTIPLY)
                     pickedCard++
                 }
             }
@@ -205,9 +208,13 @@ class GameActivity : AppCompatActivity(){
                 return
             }
         }
-        val map = HashMap<String, String>()
-        map["what"] = "708"
-        wanderer.send(map)
+
+        if(!retired) {
+            val map = HashMap<String, String>()
+            map["what"] = "708"
+            wanderer.send(map)
+            retired = true
+        }
     }
 
     private fun setCondition(order: Int, token: Int) {
@@ -288,15 +295,26 @@ class GameActivity : AppCompatActivity(){
                             }
                         }
                     }
+
                     705 -> {
                         val winner = receive.getString("winner")
-                        val num = receive.getString("num")
+                        val num = receive.getString("num").toInt()
+                        val win = receive.getString("win_num").toInt()
                         if(winner == "") {
                             Toast.makeText(applicationContext, "무승부", Toast.LENGTH_SHORT).show()
                         }else {
-                            Toast.makeText(applicationContext, "${winner}님이 ${num}를 제출해서 이겼습니다.", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(applicationContext, "${winner}님이 ${win}를 제출해서 이겼습니다.", Toast.LENGTH_SHORT).show()
+                        }
+                        if(winner == user.name) {
+                            for(i in deck.indices) {
+                                if(deck[i] == 0) {
+                                    deck[i] = num
+                                    break
+                                }
+                            }
                         }
                     }
+
 
                     707 -> {
                         val arr = receive.getJSONArray("player")
@@ -314,6 +332,8 @@ class GameActivity : AppCompatActivity(){
                                 deck[i] = 0
                             }
                         }
+                        player[name] = 0
+                        setPlayer()
                     }
 
                     709 -> {
