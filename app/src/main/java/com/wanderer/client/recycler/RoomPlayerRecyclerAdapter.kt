@@ -50,6 +50,9 @@ class RoomPlayerRecyclerAdapter(data: ArrayList<PlayerInfo>):
         if(item.name == "") {
             mBinding.imgPlayer.visibility = View.INVISIBLE
             mBinding.txtPlayerName.visibility = View.INVISIBLE
+            mBinding.root.setOnClickListener {
+
+            }
         }else {
             mBinding.txtPlayerEmpty.visibility = View.INVISIBLE
             mBinding.imgPlayer.setImageResource(R.drawable.img_profile_c)

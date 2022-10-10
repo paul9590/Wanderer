@@ -8,20 +8,19 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.os.Message
+import android.view.View
 import android.view.Window
 import android.widget.ImageButton
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.res.ResourcesCompat
-import com.wanderer.client.ChatFragment
-import com.wanderer.client.R
-import com.wanderer.client.User
-import com.wanderer.client.Wanderer
+import com.wanderer.client.*
 import com.wanderer.client.databinding.ActivitiyGameBinding
 import com.wanderer.client.databinding.DialDeckBinding
 import com.wanderer.client.databinding.DialResultBinding
 import org.json.JSONException
 import org.json.JSONObject
+import kotlin.math.log
 
 class GameActivity : AppCompatActivity(){
 
@@ -39,10 +38,13 @@ class GameActivity : AppCompatActivity(){
                             R.drawable.img_card11, R.drawable.img_card12, R.drawable.img_card13, R.drawable.img_card14, R.drawable.img_card15)
 
     private val player = HashMap<String, Int>()
+
     private val chatFr = ChatFragment()
+    private val logFr = LogFragment()
 
     private var cardPicked = false
     private var retired = false
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -76,7 +78,47 @@ class GameActivity : AppCompatActivity(){
         setPlayer()
         showDeckDial()
 
+
+        mBinding.btnLog.setOnClickListener {
+            if(mBinding.btnLog.tag == 1) {
+                setGameView(false, 'l')
+            }else {
+                setGameView(true, 'l')
+            }
+        }
+
+        mBinding.btnChat.setOnClickListener {
+            if(mBinding.btnChat.tag == 1) {
+                setGameView(false, 'c')
+            }else {
+                setGameView(true, 'c')
+            }
+        }
     }
+
+    private fun setGameView(show: Boolean, tag: Char) {
+        if(show) {
+            mBinding.viewGame.visibility = View.VISIBLE
+            if(tag == 'c') {
+                mBinding.btnChat.tag = 1
+                mBinding.btnLog.tag = 0
+                val transaction = supportFragmentManager.beginTransaction()
+                transaction.replace(R.id.viewGame, chatFr)
+                    .commit()
+            }else {
+                mBinding.btnChat.tag = 0
+                mBinding.btnLog.tag = 1
+                val transaction = supportFragmentManager.beginTransaction()
+                transaction.replace(R.id.viewGame, logFr)
+                    .commit()
+            }
+        }else {
+            mBinding.viewGame.visibility = View.INVISIBLE
+            mBinding.btnChat.tag = 0
+            mBinding.btnLog.tag = 0
+        }
+    }
+
 
     private fun setPlayer() {
         val pTxt = arrayOf(mBinding.txtPlayer1, mBinding.txtPlayer2,
@@ -219,25 +261,32 @@ class GameActivity : AppCompatActivity(){
 
     private fun setCondition(order: Int, token: Int) {
         mBinding.imgCondition2.background = null
+        var chat = ""
         when(token) {
             1 -> {
                 mBinding.imgCondition.background = ResourcesCompat.getDrawable(resources, cards[order - 1], null)
                 mBinding.imgCondition2.background = ResourcesCompat.getDrawable(resources, R.drawable.img_up, null)
+                chat = "조건식 : '${order}' 이상의 숫자 제출"
             }
 
             2 -> {
                 mBinding.imgCondition.background = ResourcesCompat.getDrawable(resources, cards[order - 1], null)
                 mBinding.imgCondition2.background = ResourcesCompat.getDrawable(resources, R.drawable.img_down, null)
+                chat = "조건식 : '${order}' 이하의 숫자를 제출"
             }
 
             3 -> {
                 mBinding.imgCondition.background = ResourcesCompat.getDrawable(resources, R.drawable.img_odd, null)
+                chat = "조건식 : '홀수' 제출"
             }
 
             4 -> {
                 mBinding.imgCondition.background = ResourcesCompat.getDrawable(resources, R.drawable.img_even, null)
+                chat = "조건식 : '짝수' 제출"
             }
         }
+
+        logFr.addList(chat)
         setDeck(order, token)
     }
 
@@ -293,6 +342,7 @@ class GameActivity : AppCompatActivity(){
                                     break
                                 }
                             }
+                            logFr.addList("${num}을 제출 했습니다.")
                         }
                     }
 
@@ -301,9 +351,9 @@ class GameActivity : AppCompatActivity(){
                         val num = receive.getString("num").toInt()
                         val win = receive.getString("win_num").toInt()
                         if(winner == "") {
-                            Toast.makeText(applicationContext, "무승부", Toast.LENGTH_SHORT).show()
+                            logFr.addList("무승부 입니다.")
                         }else {
-                            Toast.makeText(applicationContext, "${winner}님이 ${win}를 제출해서 이겼습니다.", Toast.LENGTH_SHORT).show()
+                            logFr.addList("${winner}님이 ${win}를 제출해서 이겼습니다.")
                         }
                         if(winner == user.name) {
                             for(i in deck.indices) {
@@ -355,6 +405,25 @@ class GameActivity : AppCompatActivity(){
 
                     710 -> {
                         finish()
+                    }
+
+                    711 -> {
+                        val arr = receive.getJSONArray("player")
+                        for(i in 0 until arr.length()) {
+                            val data = arr.getJSONObject(i)
+                            if(data.getString("name") == user.name) {
+                                for(j in deck.indices) {
+                                    if(deck[j] == 0) {
+                                        val num = data.getString("num").toInt()
+                                        deck[j] = num
+                                        logFr.addList("${num}을 획득 했습니다.")
+                                        setPlayer()
+                                        break
+                                    }
+                                }
+                                break
+                            }
+                        }
                     }
                 }
             } catch (e: JSONException) {

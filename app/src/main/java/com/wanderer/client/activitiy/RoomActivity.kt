@@ -54,14 +54,24 @@ class RoomActivity : AppCompatActivity(){
         mBinding.btnRoomChat.setOnClickListener {
             // 욕설 필터링 추가 해야 함
             val chat = mBinding.editRoomChat.text.toString()
-            if(chat.length < 30) {
+            var validate = true
+
+            if(chat.isEmpty()) {
+                Toast.makeText(applicationContext, "채팅을 입력해 주세요.", Toast.LENGTH_SHORT).show()
+                validate = false
+            }
+
+            if(chat.length >= 30) {
+                Toast.makeText(applicationContext, "채팅이 너무 깁니다.", Toast.LENGTH_SHORT).show()
+                validate = false
+            }
+
+            if(validate) {
                 val map = HashMap<String, String>()
                 map["what"] = "601"
                 map["chat"] = chat
                 mBinding.editRoomChat.setText("")
                 wanderer.send(map)
-            }else {
-                Toast.makeText(applicationContext, "채팅이 너무 깁니다.", Toast.LENGTH_SHORT).show()
             }
         }
         mBinding.btnBack.setOnClickListener {
@@ -183,6 +193,7 @@ class RoomActivity : AppCompatActivity(){
                         val size = chatList.size
                         chatList.add(chat)
                         chatAdapter.notifyItemInserted(size)
+                        mBinding.viewChat.scrollToPosition(size)
                     }
 
                     701 -> {

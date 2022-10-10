@@ -1,18 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/viewFrChat"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/shape_rectangle">
-
-    <ImageButton
-        android:id="@+id/btnExit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/imb_x2"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/viewChat"
@@ -32,12 +23,12 @@
         android:layout_margin="5dp"
         android:background="@drawable/shape_rectangle"
         android:paddingStart="5dp"
-        app:layout_constraintBottom_toBottomOf="@id/viewFrChat"
-        app:layout_constraintLeft_toLeftOf="@id/viewFrChat"
-        app:layout_constraintRight_toLeftOf="@id/viewFrChat" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/btnChat" />
 
     <ImageButton
-        android:id="@+id/btnRoomChat"
+        android:id="@+id/btnChat"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginRight="5dp"
@@ -45,5 +36,6 @@
         app:layout_constraintBottom_toBottomOf="@id/editChat"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="@id/editChat" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

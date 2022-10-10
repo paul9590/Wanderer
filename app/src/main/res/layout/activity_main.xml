@@ -71,7 +71,8 @@
             android:id="@+id/txtName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="@id/bgProfile"
+            android:layout_marginLeft="@dimen/margin_Left_10"
+            android:layout_marginTop="@dimen/margin_Top_10"
             app:layout_constraintLeft_toRightOf="@id/imgProfile"
             app:layout_constraintTop_toTopOf="@id/bgProfile" />
 
@@ -79,7 +80,9 @@
             android:id="@+id/txtMoney"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintLeft_toRightOf="@id/imgProfile"
+            android:layout_marginTop="12dp"
+            android:layout_marginLeft="12dp"
+            app:layout_constraintLeft_toLeftOf="@id/txtName"
             app:layout_constraintTop_toBottomOf="@id/txtName" />
 
         <ImageButton

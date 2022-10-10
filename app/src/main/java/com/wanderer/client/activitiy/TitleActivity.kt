@@ -98,15 +98,26 @@ class TitleActivity : AppCompatActivity() {
 
         btnYes.setOnClickListener {
             // 욕설 필터링, 입력 값 검증 추가 해야함
-            if(SystemClock.elapsedRealtime() - lastClickTime > 1000) {
+            var validate = true
+            val name = editRegister.text.toString()
+
+            if(SystemClock.elapsedRealtime() - lastClickTime <= 1000) {
+                validate = false
+                Toast.makeText(this, "서버와 통신 중입니다. 잠시만 기다려 주세요..", Toast.LENGTH_SHORT).show()
+            }
+
+            if (name.length < 2) {
+                validate = false
+                Toast.makeText(this, "이름이 너무 짧습니다.", Toast.LENGTH_SHORT).show()
+            }
+
+            if(validate) {
                 val map = HashMap<String, String>()
                 map["what"] = "101"
                 map["id"] = auth.currentUser!!.uid
-                map["name"] = editRegister.text.toString()
+                map["name"] = name
                 wanderer.send(map)
                 dial.dismiss()
-            }else {
-                Toast.makeText(this, "서버와 통신 중입니다. 잠시만 기다려 주세요..", Toast.LENGTH_SHORT).show()
             }
             lastClickTime = SystemClock.elapsedRealtime()
         }
