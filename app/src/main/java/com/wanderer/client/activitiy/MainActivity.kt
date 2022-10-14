@@ -11,17 +11,16 @@ import android.os.Looper
 import android.os.Message
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.ViewGroup
+import android.util.Log
 import android.view.Window
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.widget.addTextChangedListener
 import com.wanderer.client.R
 import com.wanderer.client.User
 import com.wanderer.client.Wanderer
 import com.wanderer.client.databinding.ActivityMainBinding
-import com.wanderer.client.databinding.DialEnterRoomBinding
 import com.wanderer.client.databinding.DialInfoBinding
+import com.wanderer.client.databinding.DialSettingBinding
 import org.json.JSONException
 import org.json.JSONObject
 
@@ -43,10 +42,7 @@ class MainActivity : AppCompatActivity() {
             Intent(this, RoomSearchActivity :: class.java),
             Intent(this, RoomSearchActivity :: class.java),
             Intent(this, NoticeActivity :: class.java),
-            Intent(this, QuestActivity :: class.java),
             Intent(this, RankingActivity :: class.java),
-            Intent(this, SettingActivitiy :: class.java),
-            Intent(this, ShopActivitiy :: class.java)
         )
 
         val imbs = arrayOf(
@@ -54,10 +50,7 @@ class MainActivity : AppCompatActivity() {
             mBinding.imbFriendlyGame,
             mBinding.imbRankGame,
             mBinding.imbNotice,
-            mBinding.imbQuest,
             mBinding.imbRanking,
-            mBinding.imbSetting,
-            mBinding.imbShop
         )
 
         for(i in activitys.indices) {
@@ -74,9 +67,16 @@ class MainActivity : AppCompatActivity() {
             wanderer.send(map)
         }
 
+        mBinding.imbSetting.setOnClickListener {
+            showSettingDial()
+        }
     }
 
     private fun setUser(context: Context) {
+        mBinding.txtName.text = ""
+        mBinding.imgProfile.setImageResource(R.drawable.img_profile_c)
+        mBinding.txtMoney.text = ""
+
         if(wanderer.isUser(context)) {
             val user = wanderer.getUser(context)
             val map = HashMap<String, String>()
@@ -137,6 +137,17 @@ class MainActivity : AppCompatActivity() {
                         }
                     }
 
+                    102 -> {
+                        val isValidate = receive.getString("isValidate") == "1"
+                        if(isValidate) {
+                            wanderer.deleteUser(applicationContext)
+                            setUser(applicationContext)
+                            Toast.makeText(applicationContext, "회원 탈퇴 되었습니다.", Toast.LENGTH_SHORT).show()
+                        }else {
+                            showSettingDial()
+                        }
+                    }
+
                     103 -> {
                         val isUser = receive.getString("isUser")
                         if (isUser == "1") {
@@ -151,6 +162,12 @@ class MainActivity : AppCompatActivity() {
                             mBinding.txtName.text = name
                             mBinding.txtMoney.text = money.toString()
                         }
+                    }
+
+                    104 -> {
+                        wanderer.deleteUser(applicationContext)
+                        setUser(applicationContext)
+                        Toast.makeText(applicationContext, "로그 아웃 되었습니다.", Toast.LENGTH_SHORT).show()
                     }
 
                     201 -> {
@@ -172,6 +189,29 @@ class MainActivity : AppCompatActivity() {
             } catch (e: JSONException) {
                 e.printStackTrace()
             }
+        }
+    }
+
+    private fun showSettingDial() {
+        val dial = Dialog(this)
+        dial.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dial.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        val mBinding = DialSettingBinding.inflate(this.layoutInflater)
+        dial.setContentView(mBinding.root)
+        dial.show()
+
+        mBinding.btnQuit.setOnClickListener {
+            val map = HashMap<String, String>()
+            map["what"] = "102"
+            wanderer.send(map)
+            dial.dismiss()
+        }
+
+        mBinding.btnLogOut.setOnClickListener {
+            val map = HashMap<String, String>()
+            map["what"] = "104"
+            wanderer.send(map)
+            dial.dismiss()
         }
     }
 

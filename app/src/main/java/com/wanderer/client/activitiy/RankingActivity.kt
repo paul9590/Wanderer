@@ -35,6 +35,18 @@ class RankingActivity : AppCompatActivity(){
         mBinding.btnBack.setOnClickListener {
             finish()
         }
+
+        mBinding.viewRank.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                val last = (recyclerView.layoutManager as LinearLayoutManager?)!!.findLastCompletelyVisibleItemPosition()
+                if(recyclerView.adapter!!.itemCount - 1 == last) {
+                    val map = HashMap<String, String>()
+                    map["what"] = "211"
+                    wanderer.send(map)
+                }
+            }
+        })
     }
 
     private fun setAdapter() {
@@ -68,6 +80,17 @@ class RankingActivity : AppCompatActivity(){
                         }
 
                         for(i in 3 until arr.length()) {
+                            val data = arr.getJSONObject(i)
+                            mList.add(UserRank(name = data.getString("name"), rate = data.getString("rating").toInt(), rank = data.getString("rank").toInt(), img = 0))
+                        }
+                        mAdapter.notifyItemRangeInserted(start, mList.size)
+                    }
+
+                    211 -> {
+                        val start = mList.size
+                        val arr = receive.getJSONArray("ranking")
+
+                        for(i in 0 until arr.length()) {
                             val data = arr.getJSONObject(i)
                             mList.add(UserRank(name = data.getString("name"), rate = data.getString("rating").toInt(), rank = data.getString("rank").toInt(), img = 0))
                         }

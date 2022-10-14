@@ -23,7 +23,6 @@ class RoomPlayerRecyclerAdapter(data: ArrayList<PlayerInfo>):
     RecyclerView.Adapter<RoomPlayerRecyclerAdapter.RoomPlayerViewHolder>(){
     private val mData: ArrayList<PlayerInfo>
     private lateinit var context: Context
-    private val wanderer = Wanderer.instance
 
     init {
         mData = data

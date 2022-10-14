@@ -95,7 +95,7 @@ class Wanderer : Application() {
         myDb.close()
     }
 
-    private fun deleteUser(context: Context) {
+    fun deleteUser(context: Context) {
         val myDb = MyDBHelper(context)
         val sqlDb = myDb.writableDatabase
         myDb.onUpgrade(sqlDb, 0, 1)
