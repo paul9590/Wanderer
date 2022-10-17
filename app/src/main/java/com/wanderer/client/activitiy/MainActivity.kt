@@ -108,6 +108,10 @@ class MainActivity : AppCompatActivity() {
         }.start()
     }
 
+    override fun onRestart() {
+        super.onRestart()
+    }
+
     override fun onPause() {
         super.onPause()
         overridePendingTransition(0, 0)
@@ -269,6 +273,4 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-
-
 }

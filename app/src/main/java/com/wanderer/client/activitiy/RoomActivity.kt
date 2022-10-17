@@ -87,6 +87,8 @@ class RoomActivity : AppCompatActivity(){
         mBinding.btnRoomSetting.setOnClickListener {
             showAlterRoomDial()
         }
+
+        wanderer.setHandler(RoomHandler())
     }
 
     override fun onBackPressed() {
@@ -146,9 +148,12 @@ class RoomActivity : AppCompatActivity(){
         }
     }
 
-    override fun onStart() {
-        super.onStart()
+    override fun onRestart() {
+        super.onRestart()
         wanderer.setHandler(RoomHandler())
+        val map = HashMap<String, String>()
+        map["what"] = "305"
+        wanderer.send(map)
     }
 
     override fun onPause() {

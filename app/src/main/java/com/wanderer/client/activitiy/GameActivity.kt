@@ -78,7 +78,6 @@ class GameActivity : AppCompatActivity(){
         setPlayer()
         showDeckDial()
 
-
         mBinding.btnLog.setOnClickListener {
             if(mBinding.btnLog.tag == 1) {
                 setGameView(false, 'l')
@@ -118,7 +117,6 @@ class GameActivity : AppCompatActivity(){
             mBinding.btnLog.tag = 0
         }
     }
-
 
     private fun setPlayer() {
         val pTxt = arrayOf(mBinding.txtPlayer1, mBinding.txtPlayer2,

@@ -35,7 +35,6 @@
         <activity android:name=".activitiy.GameActivity"
             android:screenOrientation="landscape"/>
         <activity android:name=".activitiy.NoticeActivity"
-            android:theme="@style/Theme.AppCompat.Transparent.NoActionBar"
             android:screenOrientation="landscape"/>
         <activity android:name=".activitiy.RankingActivity"
             android:screenOrientation="landscape"/>

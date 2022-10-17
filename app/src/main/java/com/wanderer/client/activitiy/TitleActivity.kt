@@ -110,6 +110,10 @@ class TitleActivity : AppCompatActivity() {
                 validate = false
                 Toast.makeText(this, "이름이 너무 짧습니다.", Toast.LENGTH_SHORT).show()
             }
+            if (name.length > 15) {
+                validate = false
+                Toast.makeText(this, "이름이 너무 깁니다.", Toast.LENGTH_SHORT).show()
+            }
 
             if(validate) {
                 val map = HashMap<String, String>()
