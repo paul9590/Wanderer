@@ -34,21 +34,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.4" />
+            app:layout_constraintGuide_percent="0.5" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideMain3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.6" />
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideMain4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
             app:layout_constraintGuide_percent="0.75" />
+
 
         <ImageView
             android:id="@+id/bgProfile"
@@ -115,16 +109,6 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageButton
-            android:id="@+id/imbNotice"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/imb_notice"
-            app:layout_constraintBottom_toBottomOf="@id/imbRankGame"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="@id/imbRankGame"
-            app:layout_constraintVertical_bias="0.9" />
-
         <ImageView
             android:id="@+id/imgBar"
             android:layout_width="wrap_content"
@@ -165,24 +149,16 @@
             app:layout_constraintTop_toTopOf="@id/imgBar" />
 
         <ImageButton
-            android:id="@+id/imbQuest"
+            android:id="@+id/imbNotice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/imb_quest"
+            android:background="@drawable/imb_notice"
             app:layout_constraintBottom_toBottomOf="@id/imgBar"
             app:layout_constraintLeft_toRightOf="@id/guideMain3"
-            app:layout_constraintRight_toLeftOf="@id/guideMain4"
-            app:layout_constraintTop_toTopOf="@id/imgBar" />
-
-        <ImageButton
-            android:id="@+id/imbShop"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/imb_shop"
-            app:layout_constraintBottom_toBottomOf="@id/imgBar"
-            app:layout_constraintLeft_toRightOf="@id/guideMain4"
             app:layout_constraintRight_toRightOf="@id/imgBar"
-            app:layout_constraintTop_toTopOf="@id/imgBar" />
+            app:layout_constraintTop_toTopOf="@id/imgBar"/>
+
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

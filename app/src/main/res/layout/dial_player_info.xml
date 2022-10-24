@@ -40,7 +40,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/margin_Left_10"
-        android:text="랭킹 : "
+        android:text="점수 : "
         app:layout_constraintBottom_toBottomOf="@id/imgPlayer"
         app:layout_constraintLeft_toRightOf="@id/imgPlayer"
         app:layout_constraintTop_toBottomOf="@id/txtPlayer1" />

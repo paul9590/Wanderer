@@ -32,7 +32,6 @@ class NoticeActivity : AppCompatActivity(){
         mBinding = ActivitiyNoticeBinding.inflate(layoutInflater)
         setContentView(mBinding.root)
         setAdapter()
-        setList()
 
         mBinding.btnX.setOnClickListener {
             finish()
@@ -69,6 +68,7 @@ class NoticeActivity : AppCompatActivity(){
     override fun onStart() {
         super.onStart()
         wanderer.setHandler(NoticeHandler())
+        setList()
     }
 
     inner class NoticeHandler: Handler(Looper.getMainLooper()) {

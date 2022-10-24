@@ -17,8 +17,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.wanderer.client.*
 import com.wanderer.client.databinding.ActivityRoomBinding
 import com.wanderer.client.databinding.DialAddRoomBinding
+import com.wanderer.client.databinding.DialPlayerInfoBinding
 import com.wanderer.client.recycler.ChatRecyclerAdapter
-import com.wanderer.client.recycler.RoomPlayerRecyclerAdapter
+import com.wanderer.client.recycler.PlayerRecyclerAdapter
 import org.json.JSONException
 import org.json.JSONObject
 
@@ -27,7 +28,7 @@ class RoomActivity : AppCompatActivity(){
     private lateinit var mBinding: ActivityRoomBinding
     private val mList = ArrayList<PlayerInfo>()
     private val chatList = ArrayList<String>()
-    private val mAdapter = RoomPlayerRecyclerAdapter(mList)
+    private val mAdapter = PlayerRecyclerAdapter(mList)
     private val chatAdapter = ChatRecyclerAdapter(chatList)
 
     private val wanderer: Wanderer = Wanderer.instance
@@ -47,8 +48,10 @@ class RoomActivity : AppCompatActivity(){
 
         if(user.name == mList[0].name) {
             mBinding.btnStart.visibility = View.VISIBLE
+            mBinding.btnRoomSetting.visibility = View.VISIBLE
         }else {
             mBinding.btnStart.visibility = View.INVISIBLE
+            mBinding.btnRoomSetting.visibility = View.INVISIBLE
         }
 
         mBinding.btnRoomChat.setOnClickListener {
@@ -116,34 +119,73 @@ class RoomActivity : AppCompatActivity(){
         mBinding.viewChat.layoutManager = LinearLayoutManager(applicationContext, RecyclerView.VERTICAL, false)
     }
 
+
+    private fun showPlayerInfoDial(name: String, isFriend: Boolean, rating: String) {
+        val dial = Dialog(this)
+        dial.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dial.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        val mBinding = DialPlayerInfoBinding.inflate(this.layoutInflater)
+        dial.setContentView(mBinding.root)
+        mBinding.txtPlayerName.text = name
+        mBinding.txtPlayerRate.text = rating
+
+        mBinding.btnAddFriend.visibility = View.VISIBLE
+        mBinding.btnKick.visibility = View.VISIBLE
+
+        if(user.name != mList[0].name) {
+            mBinding.btnKick.visibility = View.INVISIBLE
+        }
+
+        if(user.name == name) {
+            mBinding.btnAddFriend.visibility = View.INVISIBLE
+            mBinding.btnKick.visibility = View.INVISIBLE
+        }else if(isFriend) {
+            mBinding.btnAddFriend.background = applicationContext.getDrawable(R.drawable.imb_rm_friend)
+        }
+
+        mBinding.btnX.setOnClickListener {
+            dial.dismiss()
+        }
+
+        mBinding.btnKick.setOnClickListener {
+            val map = HashMap<String, String>()
+            map["what"] = "312"
+            map["name"] = name
+            wanderer.send(map)
+        }
+        dial.show()
+    }
+
+
     private fun showAlterRoomDial() {
         val dial = Dialog(this)
         dial.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dial.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        val mBinding = DialAddRoomBinding.inflate(this.layoutInflater)
-        dial.setContentView(mBinding.root)
+        val dialBinding = DialAddRoomBinding.inflate(this.layoutInflater)
+        dial.setContentView(dialBinding.root)
         dial.show()
-        mBinding.editEnterRoomPw.visibility = View.INVISIBLE
-        mBinding.chkRoomLock.setOnCheckedChangeListener { _, isChecked ->
+        dialBinding.editEnterRoomPw.visibility = View.INVISIBLE
+        dialBinding.chkRoomLock.setOnCheckedChangeListener { _, isChecked ->
             if(isChecked) {
-                mBinding.editEnterRoomPw.visibility = View.VISIBLE
+                dialBinding.editEnterRoomPw.visibility = View.VISIBLE
             }else {
-                mBinding.editEnterRoomPw.visibility = View.INVISIBLE
-                mBinding.editEnterRoomPw.setText("")
+                dialBinding.editEnterRoomPw.visibility = View.INVISIBLE
+                dialBinding.editEnterRoomPw.setText("")
             }
         }
-        mBinding.txtEnterRoom.text = "방 변경하기"
-        mBinding.btnEnterRoomYes.background = applicationContext.getDrawable(R.drawable.imb_alter)
-        mBinding.btnEnterRoomYes.setOnClickListener {
+        dialBinding.txtEnterRoom.text = "방 변경하기"
+        dialBinding.editRoomName.setText(mBinding.txtRoomName.text)
+        dialBinding.btnEnterRoomYes.background = applicationContext.getDrawable(R.drawable.imb_alter)
+        dialBinding.btnEnterRoomYes.setOnClickListener {
             val map = HashMap<String, String>()
             map["what"] = "302"
-            map["name"] = mBinding.editRoomName.text.toString()
-            map["roomPW"] = mBinding.editEnterRoomPw.text.toString()
-            map["max"] = mBinding.txtRoomMax.text.toString()
+            map["name"] = dialBinding.editRoomName.text.toString()
+            map["roomPW"] = dialBinding.editEnterRoomPw.text.toString()
+            map["max"] = dialBinding.txtRoomMax.text.toString()
             wanderer.send(map)
             dial.dismiss()
         }
-        mBinding.btnEnterRoomNo.setOnClickListener {
+        dialBinding.btnEnterRoomNo.setOnClickListener {
             dial.dismiss()
         }
     }
@@ -191,6 +233,20 @@ class RoomActivity : AppCompatActivity(){
                     }
                     304 -> {
                         finish()
+                    }
+
+                    311 -> {
+                        val isFriend = receive.getString("isFriend") == "1"
+                        val name = receive.getString("name")
+                        val rating = receive.getString("rating")
+                        showPlayerInfoDial(name, isFriend, rating)
+                    }
+
+                    312 -> {
+                        val name = receive.getString("name")
+                        if(user.name == name) {
+                            quitRoom()
+                        }
                     }
 
                     601 -> {
