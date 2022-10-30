@@ -120,7 +120,7 @@ class RoomActivity : AppCompatActivity(){
     }
 
 
-    private fun showPlayerInfoDial(name: String, isFriend: Boolean, rating: String) {
+    private fun showPlayerInfoDial(name: String, isFriend: Int, rating: String) {
         val dial = Dialog(this)
         dial.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dial.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
@@ -139,8 +139,40 @@ class RoomActivity : AppCompatActivity(){
         if(user.name == name) {
             mBinding.btnAddFriend.visibility = View.INVISIBLE
             mBinding.btnKick.visibility = View.INVISIBLE
-        }else if(isFriend) {
-            mBinding.btnAddFriend.background = applicationContext.getDrawable(R.drawable.imb_rm_friend)
+        }
+
+        when(isFriend) {
+            0 -> {
+                mBinding.btnAddFriend.background = applicationContext.getDrawable(R.drawable.imb_add_friend)
+                mBinding.btnAddFriend.setOnClickListener {
+                    val map = HashMap<String, String>()
+                    map["what"] = "807"
+                    map["name"] = name
+                    wanderer.send(map)
+                }
+            }
+
+            1 -> {
+                mBinding.btnAddFriend.background = applicationContext.getDrawable(R.drawable.imb_rm_friend)
+                mBinding.btnAddFriend.setOnClickListener {
+                    val map = HashMap<String, String>()
+                    map["what"] = "802"
+                    map["name"] = name
+                    wanderer.send(map)
+                    dial.dismiss()
+                }
+            }
+
+            2 -> {
+                mBinding.btnAddFriend.background = applicationContext.getDrawable(R.drawable.imb_cancel)
+                mBinding.btnAddFriend.setOnClickListener {
+                    val map = HashMap<String, String>()
+                    map["what"] = "808"
+                    map["name"] = name
+                    wanderer.send(map)
+                    dial.dismiss()
+                }
+            }
         }
 
         mBinding.btnX.setOnClickListener {
@@ -148,10 +180,12 @@ class RoomActivity : AppCompatActivity(){
         }
 
         mBinding.btnKick.setOnClickListener {
+            Toast.makeText(applicationContext, "해당 플레이어를 추방 했습니다.", Toast.LENGTH_SHORT).show()
             val map = HashMap<String, String>()
             map["what"] = "312"
             map["name"] = name
             wanderer.send(map)
+            dial.dismiss()
         }
         dial.show()
     }
@@ -175,6 +209,7 @@ class RoomActivity : AppCompatActivity(){
         }
         dialBinding.txtEnterRoom.text = "방 변경하기"
         dialBinding.editRoomName.setText(mBinding.txtRoomName.text)
+        dialBinding.editRoomName.setSelection(dialBinding.editRoomName.length())
         dialBinding.btnEnterRoomYes.background = applicationContext.getDrawable(R.drawable.imb_alter)
         dialBinding.btnEnterRoomYes.setOnClickListener {
             val map = HashMap<String, String>()
@@ -222,8 +257,10 @@ class RoomActivity : AppCompatActivity(){
                             }
                             if(user.name == mList[0].name) {
                                 mBinding.btnStart.visibility = View.VISIBLE
+                                mBinding.btnRoomSetting.visibility = View.VISIBLE
                             }else {
                                 mBinding.btnStart.visibility = View.INVISIBLE
+                                mBinding.btnRoomSetting.visibility = View.INVISIBLE
                             }
                             mAdapter.notifyDataSetChanged()
                         } else {
@@ -236,15 +273,47 @@ class RoomActivity : AppCompatActivity(){
                     }
 
                     311 -> {
-                        val isFriend = receive.getString("isFriend") == "1"
+                        val isFriend = receive.getString("isFriend").toInt()
                         val name = receive.getString("name")
                         val rating = receive.getString("rating")
+
                         showPlayerInfoDial(name, isFriend, rating)
+                        val isValidate = receive.getString("isValidate") == "1"
+                        if(isValidate) {
+                            Toast.makeText(applicationContext, "친구 삭제를 성공 했습니다.", Toast.LENGTH_SHORT).show()
+                        }else {
+                            Toast.makeText(applicationContext, "친구 삭제를 실패 했습니다.", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+
+                    807 -> {
+                        val isValidate = receive.getString("isValidate")
+                        when(isValidate[0]) {
+                            '0' -> {
+                                Toast.makeText(applicationContext, "친구 요청을 실패 했습니다.", Toast.LENGTH_SHORT).show()
+                            }
+                            '1' -> {
+                                Toast.makeText(applicationContext, "친구 요청을 성공 했습니다.", Toast.LENGTH_SHORT).show()
+                            }
+                            '2' -> {
+                                Toast.makeText(applicationContext, "친구 요청을 이미 보냈습니다.", Toast.LENGTH_SHORT).show()
+                            }
+                        }
+                    }
+
+                    808 -> {
+                        val isValidate = receive.getString("isValidate") == "1"
+                        if(isValidate) {
+                            Toast.makeText(applicationContext, "친구 요청을 취소 하였습니다.", Toast.LENGTH_SHORT).show()
+                        }else {
+                            Toast.makeText(applicationContext, "예상치 못한 오류가 발생 했습니다. 다시 시도 해 주세요.", Toast.LENGTH_SHORT).show()
+                        }
                     }
 
                     312 -> {
                         val name = receive.getString("name")
                         if(user.name == name) {
+                            Toast.makeText(applicationContext, "방에서 추방 당했습니다.", Toast.LENGTH_SHORT).show()
                             quitRoom()
                         }
                     }

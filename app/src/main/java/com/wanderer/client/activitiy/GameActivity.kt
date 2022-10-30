@@ -20,7 +20,6 @@ import com.wanderer.client.databinding.DialDeckBinding
 import com.wanderer.client.databinding.DialResultBinding
 import org.json.JSONException
 import org.json.JSONObject
-import kotlin.math.log
 
 class GameActivity : AppCompatActivity(){
 
@@ -248,8 +247,8 @@ class GameActivity : AppCompatActivity(){
                 return
             }
         }
-
         if(!retired) {
+            logFr.addList("제출 할 수 있는 카드가 없어 패배 했습니다.")
             val map = HashMap<String, String>()
             map["what"] = "708"
             wanderer.send(map)
@@ -270,7 +269,7 @@ class GameActivity : AppCompatActivity(){
             2 -> {
                 mBinding.imgCondition.background = ResourcesCompat.getDrawable(resources, cards[order - 1], null)
                 mBinding.imgCondition2.background = ResourcesCompat.getDrawable(resources, R.drawable.img_down, null)
-                chat = "조건식 : '${order}' 이하의 숫자를 제출"
+                chat = "조건식 : '${order}' 이하의 숫자 제출"
             }
 
             3 -> {
@@ -340,7 +339,7 @@ class GameActivity : AppCompatActivity(){
                                     break
                                 }
                             }
-                            logFr.addList("${num}을 제출 했습니다.")
+                            logFr.addList("${num}을(를) 제출 했습니다.")
                         }
                     }
 
@@ -351,7 +350,7 @@ class GameActivity : AppCompatActivity(){
                         if(winner == "") {
                             logFr.addList("무승부 입니다.")
                         }else {
-                            logFr.addList("${winner}님이 ${win}를 제출해서 이겼습니다.")
+                            logFr.addList("${winner}님이 ${win}을(를) 제출해서 이겼습니다.")
                         }
                         if(winner == user.name) {
                             for(i in deck.indices) {
@@ -414,7 +413,7 @@ class GameActivity : AppCompatActivity(){
                                     if(deck[j] == 0) {
                                         val num = data.getString("num").toInt()
                                         deck[j] = num
-                                        logFr.addList("${num}을 획득 했습니다.")
+                                        logFr.addList("${num}을(를) 획득 했습니다.")
                                         setPlayer()
                                         break
                                     }

@@ -1,13 +1,13 @@
 package com.wanderer.client
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.wanderer.client.databinding.FragmentLogBinding
+import com.wanderer.client.databinding.FragmentListBinding
 import com.wanderer.client.recycler.ChatRecyclerAdapter
 
 // TODO: Rename parameter arguments, choose names that match
@@ -26,7 +26,7 @@ class LogFragment : Fragment() {
     private var param2: String? = null
 
 
-    private lateinit var mBinding: FragmentLogBinding
+    private lateinit var mBinding: FragmentListBinding
     private val mList = ArrayList<String>()
     private val mAdapter = ChatRecyclerAdapter(mList)
 
@@ -43,17 +43,17 @@ class LogFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         // Inflate the layout for this fragment
-        mBinding = FragmentLogBinding.inflate(inflater, container, false)
+        mBinding = FragmentListBinding.inflate(inflater, container, false)
 
 
-        setAdapater()
+        setAdapter()
 
         return mBinding.root
     }
 
-    private fun setAdapater() {
-        mBinding.viewLog.adapter = mAdapter
-        mBinding.viewLog.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
+    private fun setAdapter() {
+        mBinding.viewList.adapter = mAdapter
+        mBinding.viewList.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
     }
 
     fun addList(s : String) {
@@ -61,7 +61,7 @@ class LogFragment : Fragment() {
         mList += s
         mAdapter.notifyItemRangeInserted(start, mList.size)
         try {
-            mBinding.viewLog.scrollToPosition(mList.size - 1)
+            mBinding.viewList.scrollToPosition(mList.size - 1)
         }catch (_: Exception) {
         }
     }

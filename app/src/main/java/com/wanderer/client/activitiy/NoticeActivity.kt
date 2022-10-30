@@ -13,7 +13,8 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.wanderer.client.*
+import com.wanderer.client.NoticeInfo
+import com.wanderer.client.Wanderer
 import com.wanderer.client.databinding.ActivitiyNoticeBinding
 import com.wanderer.client.databinding.DialNoticeBinding
 import com.wanderer.client.recycler.NoticeRecyclerAdapter

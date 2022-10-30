@@ -55,9 +55,9 @@
         android:id="@+id/btnERoomYes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/margin_Top_10"
         android:background="@drawable/imb_enter"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="@dimen/margin_Top_10"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@id/btnERoomNo"
         app:layout_constraintTop_toBottomOf="@id/guideERoom" />

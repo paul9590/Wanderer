@@ -74,8 +74,8 @@
             android:id="@+id/txtMoney"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
             android:layout_marginLeft="12dp"
+            android:layout_marginTop="12dp"
             app:layout_constraintLeft_toLeftOf="@id/txtName"
             app:layout_constraintTop_toBottomOf="@id/txtName" />
 
@@ -156,8 +156,7 @@
             app:layout_constraintBottom_toBottomOf="@id/imgBar"
             app:layout_constraintLeft_toRightOf="@id/guideMain3"
             app:layout_constraintRight_toRightOf="@id/imgBar"
-            app:layout_constraintTop_toTopOf="@id/imgBar"/>
-
+            app:layout_constraintTop_toTopOf="@id/imgBar" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

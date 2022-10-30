@@ -1,14 +1,13 @@
 package com.wanderer.client
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.wanderer.client.activitiy.GameActivity
 import com.wanderer.client.databinding.FragmentChatBinding
 import com.wanderer.client.recycler.ChatRecyclerAdapter
 
@@ -46,7 +45,7 @@ class ChatFragment : Fragment() {
     ): View {
         // Inflate the layout for this fragment
         mBinding = FragmentChatBinding.inflate(inflater, container, false)
-        setAdapater()
+        setAdapter()
 
         mBinding.btnChat.setOnClickListener {
             // 욕설 필터링 추가 해야 함
@@ -75,7 +74,7 @@ class ChatFragment : Fragment() {
         return mBinding.root
     }
 
-    private fun setAdapater() {
+    private fun setAdapter() {
         mBinding.viewChat.adapter = mAdapter
         mBinding.viewChat.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
     }

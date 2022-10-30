@@ -182,10 +182,10 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginBottom="50dp"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@id/viewDeck"
         app:layout_constraintLeft_toLeftOf="@id/viewDeck"
-        app:layout_constraintRight_toRightOf="@id/viewDeck"/>
+        app:layout_constraintRight_toRightOf="@id/viewDeck"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/btnLog"
@@ -201,8 +201,8 @@
         android:id="@+id/btnChat"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/img_btn_chat"
         android:layout_marginLeft="@dimen/margin_Left_20"
+        android:background="@drawable/img_btn_chat"
         app:layout_constraintBottom_toBottomOf="@id/imgBar"
         app:layout_constraintLeft_toRightOf="@id/btnLog"
         app:layout_constraintTop_toTopOf="@id/imgBar" />

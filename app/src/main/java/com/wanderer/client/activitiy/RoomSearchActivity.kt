@@ -13,12 +13,15 @@ import android.view.Window
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
-import com.wanderer.client.*
-import com.wanderer.client.recycler.Room
-import com.wanderer.client.recycler.RoomSearchRecyclerAdapter
+import com.wanderer.client.PlayerInfo
+import com.wanderer.client.RoomInfo
+import com.wanderer.client.User
+import com.wanderer.client.Wanderer
 import com.wanderer.client.databinding.ActivityRoomSearchBinding
 import com.wanderer.client.databinding.DialAddRoomBinding
 import com.wanderer.client.databinding.DialEnterRoomBinding
+import com.wanderer.client.recycler.Room
+import com.wanderer.client.recycler.RoomSearchRecyclerAdapter
 import org.json.JSONException
 import org.json.JSONObject
 
@@ -30,6 +33,7 @@ class RoomSearchActivity : AppCompatActivity(){
 
     private val wanderer: Wanderer = Wanderer.instance
     private lateinit var user: User
+    private var game = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,7 +41,9 @@ class RoomSearchActivity : AppCompatActivity(){
         setContentView(mBinding.root)
 
         setAdapter()
+
         user = intent.getSerializableExtra("user") as User
+        game = intent.getIntExtra("rank", 0)
 
         mBinding.btnAddRoom.setOnClickListener {
             showAddRoomDial()
@@ -53,6 +59,7 @@ class RoomSearchActivity : AppCompatActivity(){
     private fun setList() {
         val map = HashMap<String, String>()
         map["what"] = "301"
+        map["rank"] = game.toString()
         wanderer.send(map)
     }
 

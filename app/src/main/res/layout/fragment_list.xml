@@ -6,7 +6,7 @@
     android:background="@drawable/shape_rectangle">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/viewLog"
+        android:id="@+id/viewList"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:padding="20dp"

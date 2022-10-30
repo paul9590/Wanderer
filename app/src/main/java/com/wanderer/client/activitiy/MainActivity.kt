@@ -11,7 +11,6 @@ import android.os.Looper
 import android.os.Message
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.Window
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -44,6 +43,8 @@ class MainActivity : AppCompatActivity() {
             Intent(this, NoticeActivity :: class.java),
             Intent(this, RankingActivity :: class.java),
         )
+        activitys[1].putExtra("rank", 0)
+        activitys[2].putExtra("rank", 1)
 
         val imbs = arrayOf(
             mBinding.imbFriend,
@@ -106,10 +107,6 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }.start()
-    }
-
-    override fun onRestart() {
-        super.onRestart()
     }
 
     override fun onPause() {

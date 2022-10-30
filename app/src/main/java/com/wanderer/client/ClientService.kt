@@ -4,7 +4,6 @@ import android.app.Service
 import android.content.Intent
 import android.os.*
 import android.util.Log
-import org.json.JSONException
 import org.json.JSONObject
 import java.io.BufferedInputStream
 import java.io.BufferedOutputStream
