@@ -20,7 +20,6 @@ import com.wanderer.client.Wanderer
 import com.wanderer.client.databinding.ActivitiyRankingBinding
 import com.wanderer.client.databinding.DialInfoBinding
 import com.wanderer.client.recycler.RankingRecyclerAdapter
-import org.json.JSONException
 import org.json.JSONObject
 
 class RankingActivity : AppCompatActivity(){
@@ -74,6 +73,7 @@ class RankingActivity : AppCompatActivity(){
                 val receive = JSONObject(msg.obj.toString())
                 when (msg.what) {
                     210 -> {
+                        mList.clear()
                         val info = receive.getJSONArray("info").getJSONObject(0)
                         val name = info.getString("name")
                         val rank = info.getString("rank")
@@ -82,7 +82,6 @@ class RankingActivity : AppCompatActivity(){
                         mBinding.txtRank.text = "${rank} 위"
                         mBinding.txtRate.text = "${rate} 점"
 
-                        val start = mList.size
                         val arr = receive.getJSONArray("ranking")
                         val imgs = arrayOf(R.drawable.img_result1, R.drawable.img_result2, R.drawable.img_result3)
 
@@ -95,7 +94,7 @@ class RankingActivity : AppCompatActivity(){
                             val data = arr.getJSONObject(i)
                             mList.add(UserRank(name = data.getString("name"), rate = data.getString("rating").toInt(), rank = data.getString("rank").toInt(), img = 0))
                         }
-                        mAdapter.notifyItemRangeInserted(start, mList.size)
+                        mAdapter.notifyDataSetChanged()
                     }
 
                     211 -> {
@@ -136,6 +135,9 @@ class RankingActivity : AppCompatActivity(){
                             '2' -> {
                                 Toast.makeText(applicationContext, "친구 요청을 이미 보냈습니다.", Toast.LENGTH_SHORT).show()
                             }
+                            '3' -> {
+                                Toast.makeText(applicationContext, "친구로 등록 되었습니다.", Toast.LENGTH_SHORT).show()
+                            }
                         }
                     }
 
@@ -148,7 +150,7 @@ class RankingActivity : AppCompatActivity(){
                         }
                     }
                 }
-            } catch (e: JSONException) {
+            } catch (e: Exception) {
                 e.printStackTrace()
             }
         }
@@ -188,6 +190,7 @@ class RankingActivity : AppCompatActivity(){
                     map["what"] = "807"
                     map["name"] = name
                     wanderer.send(map)
+                    dial.dismiss()
                 }
             }
 

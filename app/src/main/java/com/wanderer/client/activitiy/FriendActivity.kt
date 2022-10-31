@@ -192,6 +192,7 @@ class FriendActivity : AppCompatActivity(){
                     map["what"] = "807"
                     map["name"] = name
                     wanderer.send(map)
+                    dial.dismiss()
                 }
             }
 
@@ -285,6 +286,10 @@ class FriendActivity : AppCompatActivity(){
                             }
                             '2' -> {
                                 Toast.makeText(applicationContext, "친구 요청을 이미 보냈습니다.", Toast.LENGTH_SHORT).show()
+                            }
+                            '3' -> {
+                                Toast.makeText(applicationContext, "친구로 등록 되었습니다.", Toast.LENGTH_SHORT).show()
+                                setList()
                             }
                         }
                     }

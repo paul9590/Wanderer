@@ -79,10 +79,10 @@ class NoticeActivity : AppCompatActivity(){
                 val receive = JSONObject(msg.obj.toString())
                 when (msg.what) {
                     501 -> {
+                        mList.clear()
                         val isValidate = receive.getString("isValidate") == "1"
                         if(isValidate) {
                             val arr = receive.getJSONArray("notice")
-                            val start = mList.size
                             for (i in 0 until arr.length()) {
                                 val data = arr.getJSONObject(i)
                                 val num = data.getString("num")
@@ -90,7 +90,7 @@ class NoticeActivity : AppCompatActivity(){
                                 val date = data.getString("date")
                                 mList.add(NoticeInfo(num, title, date))
                             }
-                            mAdapter.notifyItemRangeInserted(start, mList.size)
+                            mAdapter.notifyDataSetChanged()
                         }else {
                             Toast.makeText(applicationContext, "공지사항을 불러오는데 실패 했습니다.", Toast.LENGTH_SHORT).show()
                         }
@@ -108,6 +108,25 @@ class NoticeActivity : AppCompatActivity(){
                             Toast.makeText(applicationContext, "공지사항 세부 내용을 불러오는데 실패 했습니다.", Toast.LENGTH_SHORT).show()
                         }
                     }
+
+                    506 -> {
+                        val isValidate = receive.getString("isValidate") == "1"
+                        if(isValidate) {
+                            val arr = receive.getJSONArray("notice")
+                            val start = mList.size
+                            for (i in 0 until arr.length()) {
+                                val data = arr.getJSONObject(i)
+                                val num = data.getString("num")
+                                val title = data.getString("title")
+                                val date = data.getString("date")
+                                mList.add(NoticeInfo(num, title, date))
+                            }
+                            mAdapter.notifyItemRangeInserted(start, mList.size)
+                        }else {
+                            Toast.makeText(applicationContext, "공지사항을 불러오는데 실패 했습니다.", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+
                 }
             } catch (e: JSONException) {
                 e.printStackTrace()
