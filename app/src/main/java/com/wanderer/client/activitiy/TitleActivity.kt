@@ -1,10 +1,12 @@
 package com.wanderer.client.activitiy
 
 import android.app.Dialog
+import android.content.ContentValues.TAG
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.*
+import android.util.Log
 import android.view.Window
 import android.widget.EditText
 import android.widget.ImageButton
@@ -14,6 +16,7 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
@@ -45,42 +48,64 @@ class TitleActivity : AppCompatActivity() {
         initGoogle()
 
         mBinding.btnSignIn.setOnClickListener {
-            googleSignResultLauncher.launch(googleSignInClient.signInIntent)
+            signIn()
         }
     }
 
     private fun initGoogle() {
-        auth = FirebaseAuth.getInstance()
-
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestIdToken(getString(R.string.default_web_id))
+            .requestIdToken(getString(R.string.web_id))
             .requestEmail()
             .build()
 
         googleSignInClient = GoogleSignIn.getClient(this, gso)
-        googleSignResultLauncher = registerForActivityResult(
-            ActivityResultContracts.StartActivityForResult(), ActivityResultCallback { result ->
-                if (result.resultCode == RESULT_OK) {
-                    val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
-                    try {
-                        task.getResult(ApiException::class.java)?.let { account ->
-                            val tokenId = account.idToken
-                            if (tokenId != null && tokenId != "") {
-                                val credential: AuthCredential = GoogleAuthProvider.getCredential(account.idToken, null)
-                                auth.signInWithCredential(credential)
-                                    .addOnCompleteListener {
-                                        val map = HashMap<String, String>()
-                                        map["what"] = "103"
-                                        map["id"] = auth.currentUser!!.uid
-                                        wanderer.send(map)
-                                    }
-                            }
-                        } ?: throw Exception()
-                    }   catch (e: Exception) {
-                        e.printStackTrace()
-                    }
+        auth = FirebaseAuth.getInstance()
+    }
+
+    private fun signIn() {
+        val signInIntent = googleSignInClient.signInIntent
+        startActivityForResult(signInIntent, RC_SIGN_IN)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
+        if (requestCode == RC_SIGN_IN) {
+            val task = GoogleSignIn.getSignedInAccountFromIntent(data)
+            try {
+                // Google Sign In was successful, authenticate with Firebase
+                val account = task.getResult(ApiException::class.java)
+                firebaseAuthWithGoogle(account!!)
+            } catch (e: ApiException) {
+                // Google Sign In failed, update UI appropriately
+                Log.w(TAG, "Google sign in failed", e)
+            }
+        }
+    }
+
+    private fun firebaseAuthWithGoogle(acct: GoogleSignInAccount) {
+        val credential = GoogleAuthProvider.getCredential(acct.idToken, null)
+        auth.signInWithCredential(credential)
+            .addOnCompleteListener(this) { task ->
+                if (task.isSuccessful) {
+                    // Sign in success
+                    Log.d(TAG, "signInWithCredential:success")
+                    val user = auth.currentUser
+                    val map = HashMap<String, String>()
+                    map["what"] = "103"
+                    map["id"] = auth.currentUser!!.uid
+                    wanderer.send(map)
+                } else {
+                    // Sign in fails
+                    Log.w(TAG, "signInWithCredential:failure", task.exception)
                 }
-            })
+            }
+    }
+
+    companion object {
+        private const val TAG = "TitleActivity"
+        private const val RC_SIGN_IN = 9001
     }
 
     private fun showRegisterDial() {

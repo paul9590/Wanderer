@@ -151,7 +151,7 @@ class ClientService : Service() {
     }
 
     companion object {
-        const val IP = "121.132.133.85"
+        const val IP = "43.201.78.233"
         const val PORT = 22459
     }
 }

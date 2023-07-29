@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Wanderer</string>
     <string name="default_web_id">941528742194-a8omjnbfmo42tco0299d07lo7unt59nf.apps.googleusercontent.com</string>
+    <string name="web_id">907757469993-fdliaberdcfrn9pkiuon31ul8kr85os2.apps.googleusercontent.com</string>
 
     <dimen name="margin_Left_10">10dp</dimen>
     <dimen name="margin_Left_20">20dp</dimen>
